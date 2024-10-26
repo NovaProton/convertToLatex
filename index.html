@@ -34,7 +34,7 @@
     <script>
         function convertCode() {
             const code = document.getElementById('input-code').value;
-            axios.post('https://your-backend-service-url.onrender.com/convert', { code })
+            axios.post('https://converttolatex.onrender.com/convert', { code })
                 .then(response => {
                     const latex = response.data.latex;
                     document.getElementById('latex-output').innerText = latex;
