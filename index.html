@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code to LaTeX Converter</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code to LaTeX Converter</h1>
+    <textarea id="input-code" placeholder="Paste your code here"></textarea>
+    <button onclick="convertCode()">Convert to LaTeX</button>
+    <h2>Output (LaTeX Code):</h2>
+    <pre id="latex-output"></pre>
+    <h2>Rendered View:</h2>
+    <div id="rendered-latex"></div>
+
+    <script>
+        function convertCode() {
+            const code = document.getElementById('input-code').value;
+            axios.post('https://your-backend-service-url.onrender.com/convert', { code })
+                .then(response => {
+                    const latex = response.data.latex;
+                    document.getElementById('latex-output').innerText = latex;
+                    renderLatex(latex);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function renderLatex(latex) {
+            const renderedDiv = document.getElementById('rendered-latex');
+            try {
+                katex.render(latex, renderedDiv, {
+                    throwOnError: false
+                });
+            } catch (error) {
+                renderedDiv.innerText = 'Error rendering LaTeX: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
